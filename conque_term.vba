@@ -2,7 +2,7 @@
 UseVimball
 finish
 autoload/conque_term.vim	[[[1
-1373
+1378
 " FILE:     plugin/conque_term.vim {{{
 " AUTHOR:   Nico Raffo <nicoraffo@gmail.com>
 " MODIFIED: 2010-02-02
@@ -177,8 +177,13 @@ function! conque_term#set_mappings() "{{{
 	vnoremap <silent> <F9> :<C-u>call conque_term#send_selected(visualmode())<CR>
 
     " remap paste keys
-    silent execute 'nnoremap <silent> <buffer> p :python ' . b:ConqueTerm_Var . '.paste()<CR>'
-    silent execute 'nnoremap <silent> <buffer> P :python ' . b:ConqueTerm_Var . '.paste()<CR>'
+    silent execute 'nnoremap <silent> <buffer> p :python ' . b:ConqueTerm_Var . '.write(vim.eval("@@"))<CR>a'
+    silent execute 'nnoremap <silent> <buffer> P :python ' . b:ConqueTerm_Var . '.write(vim.eval("@@"))<CR>a'
+    silent execute 'nnoremap <silent> <buffer> ]p :python ' . b:ConqueTerm_Var . '.write(vim.eval("@@"))<CR>a'
+    silent execute 'nnoremap <silent> <buffer> [p :python ' . b:ConqueTerm_Var . '.write(vim.eval("@@"))<CR>a'
+    if has('gui_running')
+        silent execute 'inoremap <buffer> <S-Insert> <Esc>:<C-u>python ' . b:ConqueTerm_Var . ".write(vim.eval('@+'))<CR>a"
+    endif
 
     " disable other normal mode keys which insert text
     nnoremap <silent> <buffer> r :echo 'Replace mode disabled in shell.'<CR>
